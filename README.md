@@ -1,50 +1,52 @@
-# news-classification-pytorch
+# Text Classification with PyTorch and AG News Dataset
 
-Text Classification with PyTorch and AG News Dataset
-This project demonstrates the end-to-end development of a text classification model using PyTorch. It leverages the torchtext library for efficient data handling, including tokenization and vocabulary building, and implements a simple yet effective neural network architecture to classify news articles into predefined categories from the AG News dataset. The project also includes visualizations for model performance and embedding spaces.
+This project demonstrates the end-to-end development of a text classification model using PyTorch.
+It leverages the torchtext library for efficient data handling, including tokenization and vocabulary building, and implements a simple yet effective neural network architecture to classify news articles into predefined categories from the AG News dataset. 
 
-🌟 Features
-Data Preprocessing: Utilizes torchtext.data.utils.get_tokenizer for basic English tokenization and torchtext.vocab.build_vocab_from_iterator for vocabulary construction, including handling of unknown tokens.
+The project also includes visualizations for model performance and embedding spaces.
 
-Custom Data Loading: Implements a collate_batch function for efficient batching of text data with varying lengths, managing text offsets for nn.EmbeddingBag.
+# Features
+**Data Preprocessing**: Utilizes torchtext.data.utils.get_tokenizer for basic English tokenization and torchtext.vocab.build_vocab_from_iterator for vocabulary construction, including handling of unknown tokens.
 
-Text Classification Model: A simple feed-forward neural network (TextClassificationModel) built with torch.nn.EmbeddingBag for efficient text embedding and a linear layer for classification.
+**Custom Data Loading**: Implements a collate_batch function for efficient batching of text data with varying lengths, managing text offsets for nn.EmbeddingBag.
 
-Training & Evaluation Loop: Demonstrates a standard PyTorch training loop with CrossEntropyLoss and SGD optimizer, including learning rate scheduling (StepLR) and gradient clipping.
+**Text Classification Model**: A simple feed-forward neural network (TextClassificationModel) built with torch.nn.EmbeddingBag for efficient text embedding and a linear layer for classification.
 
-Model Persistence: Saves the best performing model during training based on validation accuracy.
+**Training & Evaluation Loop**: Demonstrates a standard PyTorch training loop with CrossEntropyLoss and SGD optimizer, including learning rate scheduling (StepLR) and gradient clipping.
 
-Performance Visualization: Custom plot function to visualize training loss and validation accuracy over epochs.
+**Model Persistence**: Saves the best performing model during training based on validation accuracy.
 
-Embedding Visualization: Employs t-SNE (t-Distributed Stochastic Neighbor Embedding) with plotly.graph_objs to visualize the high-dimensional text embeddings in a 3D space, aiding in understanding the learned representations.
+**Performance Visualization**: Custom plot function to visualize training loss and validation accuracy over epochs.
 
-Inference & Prediction: Includes functions to make predictions on new text data and showcases the classification of unseen news articles.
+**Embedding Visualization**: Employs t-SNE (t-Distributed Stochastic Neighbor Embedding) with plotly.graph_objs to visualize the high-dimensional text embeddings in a 3D space, aiding in understanding the learned representations.
 
-📚 Dataset
+**Inference & Prediction**: Includes functions to make predictions on new text data and showcases the classification of unseen news articles.
+
+# Dataset
 This project uses the AG News Dataset, a widely recognized benchmark dataset for text classification. It consists of more than 1 million news articles from more than 2000 news sources. The dataset is categorized into 4 classes: World, Sports, Business, and Sci/Tec.
 
-🛠️ Technologies & Libraries
-Python: Programming Language
+# Technologies & Libraries
+**Python**: Programming Language
 
-PyTorch: Deep Learning Framework
+**PyTorch**: Deep Learning Framework
 
-torchtext: For text-specific data processing (tokenization, vocabulary)
+**torchtext*: For text-specific data processing (tokenization, vocabulary)
 
-NumPy: Numerical operations
+**NumPy**: Numerical operations
 
-Pandas: Data manipulation (though primarily used for internal processing in this script)
+**Pandas**: Data manipulation (though primarily used for internal processing in this script)
 
-Matplotlib: For 2D plotting of training metrics
+**Matplotlib**: For 2D plotting of training metrics
 
-tqdm: For progress bars during training
+**tqdm**: For progress bars during training
 
-scikit-learn: For TSNE dimensionality reduction
+**scikit-learn**: For TSNE dimensionality reduction
 
-Plotly: For interactive 3D visualization of embeddings
+**Plotly**: For interactive 3D visualization of embeddings
 
-IPython.display: For rendering Markdown content in notebooks
+**IPython.display**: For rendering Markdown content in notebooks
 
-🚀 Getting Started
+# Getting Started
 Prerequisites
 Python 3.x
 
@@ -65,7 +67,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install numpy pandas matplotlib tqdm torchtext scikit-learn plotly
 
 
-Running the Code
+# Running the Code
 The provided code is a self-contained script. You can execute it directly:
 
 python your_script_name.py
@@ -75,43 +77,45 @@ Or, if you are running it in a Jupyter Notebook or Google Colab environment, sim
 
 The script will:
 
-Download and prepare the AG News dataset.
+1. Download and prepare the AG News dataset.
 
-Build a vocabulary from the training data.
+2. Build a vocabulary from the training data.
 
-Initialize and train the TextClassificationModel.
+3. Initialize and train the TextClassificationModel.
 
-Plot the training loss and validation accuracy.
+4. Plot the training loss and validation accuracy.
 
-Evaluate the model on the test set.
+5. Evaluate the model on the test set.
 
-Generate a 3D t-SNE visualization of text embeddings from a validation batch.
+6. Generate a 3D t-SNE visualization of text embeddings from a validation batch.
 
 Demonstrate prediction on a sample article and a list of new articles.
 
-📊 Results & Visualizations
+# Results & Visualizations
 Upon running the script, you will observe:
 
-Training Progress Plot: A matplotlib plot showing the total loss (cost) and accuracy over training epochs, helping to monitor convergence and identify overfitting.
+* Training Progress Plot: A matplotlib plot showing the total loss (cost) and accuracy over training epochs, helping to monitor convergence and identify overfitting.
 
-3D t-SNE Visualization of Embeddings: An interactive Plotly 3D scatter plot. This visualization helps in understanding how well the EmbeddingBag layer has clustered different news categories in the embedding space. Ideally, articles from the same category should form distinct clusters.
+* 3D t-SNE Visualization of Embeddings: An interactive Plotly 3D scatter plot. This visualization helps in understanding how well the EmbeddingBag layer has clustered different news categories in the embedding space. Ideally, articles from the same category should form distinct clusters.
 
 Sample Predictions: The script will output the predicted category for a sample article and then for a list of diverse articles, demonstrating the model's inference capabilities.
 
-📂 Project Structure
+# Project Structure
 (Assuming your code is in a single .py or .ipynb file. If you have separate files, adjust this section accordingly.)
 
+```
 .
 ├── your_project_file.py  # Or your_notebook_file.ipynb
 └── my_model.pth          # Saved model weights (generated after first run)
 ├── README.md             # This file
 
+```
 
-🧠  Model Architecture 
+# Model Architecture 
 The TextClassificationModel is a straightforward neural network:
 
-nn.EmbeddingBag: This layer efficiently handles variable-length text sequences by averaging or summing embeddings for words in a sentence. It's particularly useful for text classification where the order of words might be less critical than the overall meaning.
+*nn.EmbeddingBag*: This layer efficiently handles variable-length text sequences by averaging or summing embeddings for words in a sentence. It's particularly useful for text classification where the order of words might be less critical than the overall meaning.
 
-nn.Linear: A fully connected layer that maps the combined embeddings to the number of output classes (4 for AG News).
+*nn.Linear*: A fully connected layer that maps the combined embeddings to the number of output classes (4 for AG News).
 
-The init_weights method ensures initial stability by uniformly distributing weights and zeroing biases.
+The *init_weights* method ensures initial stability by uniformly distributing weights and zeroing biases.
