@@ -1,70 +1,65 @@
-# Text Classification with PyTorch and AG News Dataset
+# Text Classification with Hugging Face Transformers and AG News Dataset
 
-This project demonstrates the end-to-end development of a text classification model using PyTorch.
-It leverages the torchtext library for efficient data handling, including tokenization and vocabulary building, and implements a simple yet effective neural network architecture to classify news articles into predefined categories from the AG News dataset. 
-
-The project also includes visualizations for model performance and embedding spaces.
+This project demonstrates an end-to-end text classification pipeline using the powerful Hugging Face transformers and datasets libraries in PyTorch. It showcases how to fine-tune a pre-trained transformer model (like DistilBERT) on the AG News dataset to classify news articles into various categories. The project also includes robust data preprocessing, model training, performance evaluation, and visualization of learned embeddings.
 
 # Features
-**Data Preprocessing**: Utilizes torchtext.data.utils.get_tokenizer for basic English tokenization and torchtext.vocab.build_vocab_from_iterator for vocabulary construction, including handling of unknown tokens.
 
-**Custom Data Loading**: Implements a collate_batch function for efficient batching of text data with varying lengths, managing text offsets for nn.EmbeddingBag.
+Hugging Face datasets Integration: Efficiently loads and manages the AG News dataset directly from the Hugging Face Hub.
 
-**Text Classification Model**: A simple feed-forward neural network (TextClassificationModel) built with torch.nn.EmbeddingBag for efficient text embedding and a linear layer for classification.
+Pre-trained Tokenizer: Utilizes transformers.AutoTokenizer (e.g., DistilBERT's tokenizer) for advanced tokenization, including subword splitting, special token handling, and attention mask generation.
 
-**Training & Evaluation Loop**: Demonstrates a standard PyTorch training loop with CrossEntropyLoss and SGD optimizer, including learning rate scheduling (StepLR) and gradient clipping.
+Dynamic Padding: Employs transformers.DataCollatorWithPadding for efficient batching, padding sequences only to the maximum length within each batch.
 
-**Model Persistence**: Saves the best performing model during training based on validation accuracy.
+Pre-trained Transformer Model: Leverages transformers.AutoModelForSequenceClassification to load and fine-tune a pre-trained transformer model (e.g., DistilBERT) with a classification head tailored for the AG News dataset.
 
-**Performance Visualization**: Custom plot function to visualize training loss and validation accuracy over epochs.
+Standard Training Loop: Implements a robust PyTorch training loop with AdamW optimizer and a linear learning rate scheduler (get_scheduler) for optimal fine-tuning of transformer models.
 
-**Embedding Visualization**: Employs t-SNE (t-Distributed Stochastic Neighbor Embedding) with plotly.graph_objs to visualize the high-dimensional text embeddings in a 3D space, aiding in understanding the learned representations.
+Model Persistence: Saves the fine-tuned model and its tokenizer (including configuration) based on the best validation accuracy achieved during training.
 
-**Inference & Prediction**: Includes functions to make predictions on new text data and showcases the classification of unseen news articles.
+Performance Visualization: Includes a plot_metrics function to visualize training loss and validation accuracy over epochs, aiding in performance monitoring.
+
+Embedding Visualization: Uses t-SNE (t-Distributed Stochastic Neighbor Embedding) with plotly.graph_objs to visualize the high-dimensional contextual embeddings (specifically, the [CLS] token embedding) in 3D space, providing insights into the model's learned representations.
+
+Inference & Prediction: Provides a clear function to make predictions on new, unseen text articles, demonstrating the model's real-world applicability.
+
 
 # Dataset
-This project uses the AG News Dataset, a widely recognized benchmark dataset for text classification. It consists of more than 1 million news articles from more than 2000 news sources. The dataset is categorized into 4 classes: World, Sports, Business, and Sci/Tec.
+This project utilizes the AG News Dataset, a widely recognized benchmark for text classification. It is loaded directly from the Hugging Face datasets library. The dataset comprises over 1 million news articles from more than 2000 news sources, categorized into 4 classes:
+
+0: World
+
+1: Sports
+
+2: Business
+
+3: Sci/Tec
+
+(Note: The original AG News dataset uses 1-indexed labels, but Hugging Face models typically expect 0-indexed labels, which is handled in the code.)
 
 # Technologies & Libraries
-**Python**: Programming Language
+Python: Programming Language
 
-**PyTorch**: Deep Learning Framework
+PyTorch: Deep Learning Framework
 
-**torchtext*: For text-specific data processing (tokenization, vocabulary)
+Hugging Face transformers: For pre-trained models, tokenizers, and utilities.
 
-**NumPy**: Numerical operations
+Hugging Face datasets: For efficient dataset loading and management.
 
-**Pandas**: Data manipulation (though primarily used for internal processing in this script)
+NumPy: Numerical operations.
 
-**Matplotlib**: For 2D plotting of training metrics
+Pandas: Data manipulation (used for internal processing).
 
-**tqdm**: For progress bars during training
+Matplotlib: For 2D plotting of training metrics.
 
-**scikit-learn**: For TSNE dimensionality reduction
+tqdm: For progress bars during training and evaluation.
 
-**Plotly**: For interactive 3D visualization of embeddings
+scikit-learn: For TSNE dimensionality reduction.
 
-**IPython.display**: For rendering Markdown content in notebooks
+Plotly: For interactive 3D visualization of embeddings.
+
+IPython.display: For rendering Markdown content in environments like Jupyter.
 
 # Getting Started
-Prerequisites
-Python 3.x
-
-Pip (Python package installer)
-
-Installation
-Clone the repository (if applicable) or save the code:
-
-git clone https://github.com/your_username/your_project_name.git
-cd your_project_name
-
-
-(If you're directly copying the script, just ensure you're in the directory where you saved the .py or .ipynb file.)
-
-Install the required libraries:
-
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu # or cuda if you have GPU
-pip install numpy pandas matplotlib tqdm torchtext scikit-learn plotly
 
 
 # Running the Code
@@ -77,45 +72,51 @@ Or, if you are running it in a Jupyter Notebook or Google Colab environment, sim
 
 The script will:
 
-1. Download and prepare the AG News dataset.
+Load the AG News dataset using Hugging Face datasets.
 
-2. Build a vocabulary from the training data.
+Load a pre-trained tokenizer (e.g., distilbert-base-uncased).
 
-3. Initialize and train the TextClassificationModel.
+Tokenize and prepare the dataset for model input.
 
-4. Plot the training loss and validation accuracy.
+Initialize and fine-tune a pre-trained AutoModelForSequenceClassification.
 
-5. Evaluate the model on the test set.
+Plot the training loss and validation accuracy over epochs.
 
-6. Generate a 3D t-SNE visualization of text embeddings from a validation batch.
+Evaluate the fine-tuned model on the test set.
 
-Demonstrate prediction on a sample article and a list of new articles.
+Generate an interactive 3D t-SNE visualization of the model's learned text embeddings.
+
+Demonstrate real-time prediction on a sample news article and a list of new articles.
 
 # Results & Visualizations
 Upon running the script, you will observe:
 
-* Training Progress Plot: A matplotlib plot showing the total loss (cost) and accuracy over training epochs, helping to monitor convergence and identify overfitting.
+Training Progress Plot: A matplotlib plot titled "Model Training Progress (Hugging Face)" showing the average training loss and validation accuracy per epoch. This plot helps in understanding the model's learning curve and identifying potential overfitting or underfitting.
 
-* 3D t-SNE Visualization of Embeddings: An interactive Plotly 3D scatter plot. This visualization helps in understanding how well the EmbeddingBag layer has clustered different news categories in the embedding space. Ideally, articles from the same category should form distinct clusters.
+3D t-SNE Visualization of Embeddings: An interactive Plotly 3D scatter plot titled "3D t-SNE Visualization of Embeddings (Hugging Face)". This visualization displays the dimensionality-reduced [CLS] token embeddings, colored by their respective news categories. It provides a visual insight into how well the model's internal representations separate different classes.
 
-Sample Predictions: The script will output the predicted category for a sample article and then for a list of diverse articles, demonstrating the model's inference capabilities.
+Sample Predictions: The script will print the predicted category and associated probabilities for a sample news article, followed by classifications for a list of diverse articles, showcasing the model's inference capabilities.
 
 # Project Structure
 (Assuming your code is in a single .py or .ipynb file. If you have separate files, adjust this section accordingly.)
 
 ```
 .
-├── your_project_file.py  # Or your_notebook_file.ipynb
-└── my_model.pth          # Saved model weights (generated after first run)
-├── README.md             # This file
-
+├── your_project_file.py  # Main script containing all the code
+├── best_model/           # Directory where the best performing model and tokenizer are saved
+│   ├── config.json
+│   ├── pytorch_model.bin
+│   └── tokenizer_config.json
+├── README.md   
 ```
 
 # Model Architecture 
-The TextClassificationModel is a straightforward neural network:
+This project leverages the DistilBERT architecture via AutoModelForSequenceClassification. DistilBERT is a smaller, faster, and lighter version of BERT that retains much of BERT's performance.
 
-*nn.EmbeddingBag*: This layer efficiently handles variable-length text sequences by averaging or summing embeddings for words in a sentence. It's particularly useful for text classification where the order of words might be less critical than the overall meaning.
+The model consists of:
 
-*nn.Linear*: A fully connected layer that maps the combined embeddings to the number of output classes (4 for AG News).
+Pre-trained Transformer Encoder: Learns rich contextual embeddings for input tokens.
 
-The *init_weights* method ensures initial stability by uniformly distributing weights and zeroing biases.
+Classification Head: A linear layer added on top of the transformer's output (typically the [CLS] token's embedding) that maps the contextualized embeddings to the number of target classes (4 for AG News).
+
+The fine-tuning process adapts the pre-trained weights of the transformer to the specific task of news classification, allowing it to leverage the vast knowledge learned during its initial pre-training.
